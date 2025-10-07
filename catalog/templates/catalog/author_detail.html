@@ -1,0 +1,37 @@
+{% extends "catalog/base.html" %}
+
+{% block content %}
+  <h1>{{ author.first_name }} {{ author.last_name }}</h1>
+
+  <p>
+    <strong>Date of birth:</strong>
+    {{ author.date_of_birth|date:"F j, Y" }}
+  </p>
+  <p>
+    <strong>Date of death:</strong>
+    {% if author.date_of_death %}
+      {{ author.date_of_death|date:"F j, Y" }}
+    {% else %}
+    {% endif %}
+  </p>
+
+    <div>
+    {% if author.author_image %}
+        <img src="{{ author.author_image.url }}">
+    {% endif %}
+    </div>
+
+
+  <h2>Books</h2>
+  {% if author.book_set.all %}
+    <ul>
+      {% for book in author.book_set.all %}
+        <li>
+          <a href="{% url 'book_detail' book.pk %}">{{ book.title }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No books found for this author.</p>
+  {% endif %}
+{% endblock %}
